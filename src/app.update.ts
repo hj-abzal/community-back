@@ -24,8 +24,8 @@ export class AppUpdate {
     ctx.session.type = 'register';
     ctx.session.token = token
     await ctx.reply('Отправил сенсею @SuanAbzal токен, отправь следующим сообщением данный токен:')
-    await ctx.telegram.sendMessage('1071927152', token)
-    await ctx.telegram.sendMessage('1071927152', JSON.stringify(ctx.from))
+    await ctx.telegram.sendMessage(process.env.ADMIN_TELEGRAM_ID, token)
+    await ctx.telegram.sendMessage(process.env.ADMIN_TELEGRAM_ID, JSON.stringify(ctx.from))
   }
 
   @On('text')
@@ -34,17 +34,19 @@ export class AppUpdate {
     if (message === ctx.session.token) {
       try {
          await this.userService.create({
-          name: ctx.from.first_name,
           telegram_id: ctx.from.id.toString(),
           telegram_user_name: ctx.from.username,
-          group: 2
         })
         await ctx.reply(`Успешно зарегистрирован!`)
+        await ctx.telegram.sendMessage(process.env.ADMIN_TELEGRAM_ID, `Успешно зарегистрирован!`)
+
       } catch (e) {
         await ctx.reply(`Что то пошло не так!`)
+        await ctx.telegram.sendMessage(process.env.ADMIN_TELEGRAM_ID, `Что то пошло не так!`)
       }
     } else {
       await ctx.reply('Не валидный токен!')
+      await ctx.telegram.sendMessage(process.env.ADMIN_TELEGRAM_ID, `Не валидный токен! Нужно:${message}, получаю:${ctx.session.token}`)
     }
     ctx.session.type = null;
     ctx.session.token = '';
