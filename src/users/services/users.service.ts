@@ -21,4 +21,8 @@ export class UsersService {
   getAll(params: any): Promise<Users[]> {
     return  this.userRepository.findAll({where: { ...params }})
   }
+
+  _getAll(): Promise<Users[]> {
+    return  this.userRepository.findAll()
+  }
 }
