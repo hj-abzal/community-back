@@ -1,6 +1,4 @@
 import { Body, Controller, HttpException, HttpStatus, Post } from "@nestjs/common";
-import { ApiOperation, ApiResponse } from "@nestjs/swagger";
-import { Users } from "../models/users.model";
 import { MessagesService } from "../services/messages.service";
 import { UsersService } from "../services/users.service";
 
@@ -12,8 +10,6 @@ export class MessagesController {
   ) {
   }
 
-  @ApiOperation({ summary: "Create new Todolist" })
-  @ApiResponse({ status: 200, type: Users })
   @Post('/by-group')
   async sendByGroup(@Body() body: any) {
     try {
@@ -24,8 +20,6 @@ export class MessagesController {
     }
   }
 
-  @ApiOperation({ summary: "Create new Todolist" })
-  @ApiResponse({ status: 200, type: Users })
   @Post('/to-all')
   async sendToAll(@Body() body: any) {
     try {
@@ -33,6 +27,15 @@ export class MessagesController {
       return this.messagesService.sendMessage(body.message, users)
     } catch (e) {
       return new HttpException("Forbidden", HttpStatus.FORBIDDEN);
+    }
+  }
+
+  @Post("")
+  async sendMessage(@Body() body: any) {
+    try {
+      return  await this.usersService.getAll({...body});
+    } catch (e) {
+
     }
   }
 }

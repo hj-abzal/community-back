@@ -23,7 +23,7 @@ export class AppUpdate {
     const token = v1();
     ctx.session.type = 'register';
     ctx.session.token = token
-    await ctx.reply('Отправил сенсею @SuanAbzal токен, отправь следующим сообщением данный токен:')
+    await ctx.reply(`Отправил сенсею ${process.env.ADMIT_TELEGRAM_USER_NAME} токен, отправь следующим сообщением данный токен:`)
     await ctx.telegram.sendMessage(process.env.ADMIN_TELEGRAM_ID, token)
     await ctx.telegram.sendMessage(process.env.ADMIN_TELEGRAM_ID, JSON.stringify(ctx.from))
   }

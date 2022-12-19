@@ -1,24 +1,28 @@
-import { Body, Controller, Get, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from "@nestjs/common";
 import { UsersService } from "../services/users.service";
-import { ApiOperation, ApiResponse } from "@nestjs/swagger";
-import { CreateUserDto } from "../dto/create-user.dto";
-import { Users } from "../models/users.model";
+import { UserCreationAttrs, Users } from "../models/users.model";
 
 @Controller('users')
 export class UsersController {
   constructor(private userService: UsersService) {}
 
-  @ApiOperation({summary: 'Create new Todolist'})
-  @ApiResponse({status: 200, type: Users})
   @Post()
-  createUser(@Body() dto: CreateUserDto) {
+  createUser(@Body() dto: UserCreationAttrs) {
     return this.userService.create(dto);
   }
 
-  @ApiOperation({summary: 'Create new Todolist'})
-  @ApiResponse({status: 200, type: Users})
+  @Put('/:id')
+  updateUser(@Body() dto: Users, @Param('id') id: number) {
+    return this.userService.update(dto, id);
+  }
+
   @Get()
-  getAll() {
-    return this.userService._getAll();
+  getAll( @Query() query) {
+    return this.userService._getAll(query);
+  }
+
+  @Delete('/:id')
+  deleteUser(@Param('id') id: number) {
+    return this.userService.delete(id);
   }
 }
