@@ -1,7 +1,4 @@
-import { ApiProperty } from "@nestjs/swagger";
-
 export class CreateUserDto {
-  @ApiProperty({example: 'Alex', description: 'name of user'})
   readonly telegram_user_name: string;
 
   readonly telegram_id: string;

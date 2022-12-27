@@ -30,7 +30,6 @@ export class UsersService {
   async _getAll(query: any) {
     const limit = 10;
     let where: any = {};
-
     if (query.search) {
       where.first_name = {
         [Op.like]: `%${query.search}%`
